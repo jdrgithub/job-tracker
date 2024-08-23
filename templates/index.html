@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Application Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Job Applications</h2>
+<ul>
+    {% for application in job_applications %}
+    <li>{{ application.company }} - {{ application.position }} - {{ application.status }}</li>
+    {% else %}
+    <li>No job applications yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+</body>
+</html>
