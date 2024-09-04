@@ -5,22 +5,24 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 # Configure the SQLAlchemy database URI (replace 'db' with the name of your database container)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@db/dbname'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///job_applications.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Instantiate SQLAlchemy
 db = SQLAlchemy(app)
 
-# In-memory storage for job applications (you might want to use a database later)
-job_applications = []
-
-@app.route('/')
-def index():
-    return render_template('index.html', job_applications=job_applications)
-
 class JobApplication(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     company_name = db.Column(db.String(120), nullable=False)
+    position = db.Column(db.String(120), nullable=False)
+    status = db.Column(db.String(120), nullable=False)
+
+db.create_all()
+
+@app.route('/')
+def index():
+    job_applications = JobApplication.query.all()
+    return render_template('index.html', job_applications=job_applications)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_application():
@@ -29,12 +31,10 @@ def add_application():
         position = request.form['position']
         status = request.form['status']
 
-        # Add the new application to the list
-        job_applications.append({
-            'company': company,
-            'position': position,
-            'status': status
-        })
+        # Add the new application to the database
+        new_application = JobApplication(company_name=company, position=position, status=status)
+        db.session.add(new_application)
+        db.session.commit()
 
         return redirect(url_for('index'))
 
