@@ -2,22 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Job Application Tracker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Applications Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-{% extends "layout.html" %}
+<div class="container mt-5">
+    <h1 class="text-center">Job Applications Tracker</h1>
 
-{% block content %}
-<h2>Job Applications</h2>
-<ul>
-    {% for application in job_applications %}
-    <li>{{ application.company }} - {{ application.position }} - {{ application.status }}</li>
-    {% else %}
-    <li>No job applications yet.</li>
-    {% endfor %}
-</ul>
-{% endblock %}
+    <table class="table table-striped mt-3">
+        <thead>
+        <tr>
+            <th>Company</th>
+            <th>Position</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for job in job_applications %}
+        <tr>
+            <td>{{ job.company_name }}</td>
+            <td>{{ job.position }}</td>
+            <td>{{ job.status }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
+    <div class="text-center mt-3">
+        <a href="{{ url_for('add_application') }}" class="btn btn-primary">Add New Application</a>
+    </div>
+</div>
 </body>
 </html>

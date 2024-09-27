@@ -11,14 +11,18 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Instantiate SQLAlchemy
 db = SQLAlchemy(app)
 
+# Define the JobApplication model
 class JobApplication(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     company_name = db.Column(db.String(120), nullable=False)
     position = db.Column(db.String(120), nullable=False)
     status = db.Column(db.String(120), nullable=False)
 
-db.create_all()
+# Ensure database tables are created in an application context
+with app.app_context():
+    db.create_all()
 
+# Define routes
 @app.route('/')
 def index():
     job_applications = JobApplication.query.all()
@@ -42,7 +46,3 @@ def add_application():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
