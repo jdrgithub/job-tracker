@@ -1,30 +1,39 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from pathlib import Path
 import logging
+import os
 
 # Set up basic logging
 logging.basicConfig(level=logging.INFO)
 
-import os
+# Get the current working directory
 current_directory = os.getcwd()
 print(f"CURRENT DIRECTORY: {current_directory}")
 
 # Instantiate Flask
 app = Flask(__name__)
 
-# Configure the SQLAlchemy database URI (replace 'db' with the name of your database container)
+# Configure the SQLAlchemy database URI
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///job_applications.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Instantiate SQLAlchemy
 db = SQLAlchemy(app)
 
-# Define the JobApplication model
+# Define the JobApplication model to include all form fields
 class JobApplication(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     company_name = db.Column(db.String(120), nullable=False)
     position = db.Column(db.String(120), nullable=False)
+    salary = db.Column(db.Float, nullable=True)
+    job_description = db.Column(db.Text, nullable=True)
+    recruiter_name = db.Column(db.String(120), nullable=True)
+    hiring_manager_name = db.Column(db.String(120), nullable=True)
+    recruiting_company = db.Column(db.String(120), nullable=True)
+    notes = db.Column(db.Text, nullable=True)
+    callback = db.Column(db.String(10), default="No")
+    first_interview = db.Column(db.String(10), default="No")
     current_phase = db.Column(db.String(120), default='applied_for')
     completed_phases = db.Column(db.String(500), default='')  # Store as CSV
 
@@ -36,8 +45,6 @@ class JobApplication(db.Model):
             self.current_phase = phases[phases.index(self.current_phase) + 1]
         else:
             print("Cannot advance further.")
-
-
 
 # Function to check if the database file exists and create the tables if not
 def initialize_database():
@@ -65,7 +72,6 @@ initialize_database()
 # Define the index route to show job applications
 @app.route('/')
 def index():
-    print("Current working directory:", os.getcwd())
     job_applications = JobApplication.query.all()
     return render_template('index.html', job_applications=job_applications)
 
@@ -73,16 +79,43 @@ def index():
 @app.route('/add', methods=['GET', 'POST'])
 def add_application():
     if request.method == 'POST':
-        company = request.form['company']
-        position = request.form['position']
-        status = request.form['status']
+        # Safely retrieve form data
+        company_name = request.form.get('company_name')
+        position = request.form.get('position')
+        salary = request.form.get('salary')
+        job_description = request.form.get('job_description')
+        recruiter_name = request.form.get('recruiter_name')
+        hiring_manager_name = request.form.get('hiring_manager_name')
+        recruiting_company = request.form.get('recruiting_company')
+        notes = request.form.get('notes')
+        callback = request.form.get('callback', 'No')
+        first_interview = request.form.get('first_interview', 'No')
+        current_phase = request.form.get('current_phase', 'applied_for')  # Default to 'applied_for' if not provided
+
+        # Validate the required fields
+        if not company_name or not position:
+            flash("Company name and position are required.", "danger")
+            return redirect(url_for('add_application'))
 
         # Add the new application to the database
-        new_application = JobApplication(company_name=company, position=position, current_phase=status)
+        new_application = JobApplication(
+            company_name=company_name,
+            position=position,
+            salary=salary,
+            job_description=job_description,
+            recruiter_name=recruiter_name,
+            hiring_manager_name=hiring_manager_name,
+            recruiting_company=recruiting_company,
+            notes=notes,
+            callback=callback,
+            first_interview=first_interview,
+            current_phase=current_phase
+        )
         db.session.add(new_application)
         db.session.commit()
 
         return redirect(url_for('index'))
+
     return render_template('add_application.html')
 
 # Define the route to view the details of a specific job application
