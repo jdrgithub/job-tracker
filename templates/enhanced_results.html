@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Results</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+  <h1>Enhanced Job Application Results</h1>
+  <p>Total Jobs Applied For: {{ total_jobs }}</p>
+  <p>Total Interviews: {{ total_interviews }}</p>
+  <p>Total Hired: {{ total_hired }}</p>
+  <h2>Phase Distribution</h2>
+  <ul>
+    {% for phase, count in phase_counts.items() %}
+    <li>{{ phase }}: {{ count }} jobs</li>
+    {% endfor %}
+  </ul>
+  <h2>Conversion Rates</h2>
+  <p>Applied to Interview Conversion Rate: {{ conversion_to_interview }}%</p>
+  <p>Applied to Hire Conversion Rate: {{ conversion_to_hire }}%</p>
+</div>
+</body>
+</html>
