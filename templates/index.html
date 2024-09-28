@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Applications Tracker</title>
+    <title>Job Tracker</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-5">
-    <h1 class="text-center">Job Applications Tracker</h1>
-
-    <table class="table table-striped mt-3">
+    <h1>Job Tracker</h1>
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>Company</th>
             <th>Position</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -23,15 +23,13 @@
         <tr>
             <td>{{ job.company_name }}</td>
             <td>{{ job.position }}</td>
-            <td>{{ job.status }}</td>
+            <td>{{ job.current_phase }}</td>
+            <td><a href="{{ url_for('view_application', job_id=job.id) }}" class="btn btn-info">View</a></td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <div class="text-center mt-3">
-        <a href="{{ url_for('add_application') }}" class="btn btn-primary">Add New Application</a>
-    </div>
+    <a href="{{ url_for('add_application') }}" class="btn btn-primary">Add New Job</a>
 </div>
 </body>
 </html>
