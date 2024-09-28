@@ -9,10 +9,57 @@
 <body>
 <div class="container mt-5">
   <h1>Job Application Details</h1>
-  <p><strong>Company:</strong> {{ job.company_name }}</p>
-  <p><strong>Position:</strong> {{ job.position }}</p>
-  <p><strong>Current Phase:</strong> {{ job.current_phase }}</p>
-  <p><strong>Completed Phases:</strong> {{ job.completed_phases }}</p>
+  <table class="table table-bordered">
+    <tr>
+      <th>Company</th>
+      <td>{{ job.company_name or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Position</th>
+      <td>{{ job.position or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Salary</th>
+      <td>{{ job.salary if job.salary is not none else 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Job Description</th>
+      <td>{{ job.job_description or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Recruiter's Name</th>
+      <td>{{ job.recruiter_name or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Hiring Manager's Name</th>
+      <td>{{ job.hiring_manager_name or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Recruiting Company</th>
+      <td>{{ job.recruiting_company or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Notes</th>
+      <td>{{ job.notes or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Callback Received</th>
+      <td>{{ job.callback or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>First Interview Scheduled</th>
+      <td>{{ job.first_interview or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Current Phase</th>
+      <td>{{ job.current_phase or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Completed Phases</th>
+      <td>{{ job.completed_phases or 'None' }}</td>
+    </tr>
+  </table>
+  <a href="{{ url_for('index') }}" class="btn btn-primary">Back to Applications</a>
 </div>
 </body>
 </html>

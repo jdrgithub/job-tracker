@@ -4,69 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Job Application</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<div class="form-container">
+<div class="container mt-5">
     <h2>Add Job Application</h2>
-    <p class="form-intro">
-        Please fill in the details of your job application below. Fields marked with an asterisk (*) are required. Optional fields allow you to keep track of additional information for future reference.
-    </p>
-
     <form method="POST" action="{{ url_for('add_application') }}">
-        <table class="form-table">
-            <tr>
-                <td><label for="company_name">* Company Name:</label></td>
-                <td><input type="text" id="company_name" name="company_name" required></td>
-            </tr>
-            <tr>
-                <td><label for="position">* Position:</label></td>
-                <td><input type="text" id="position" name="position" required></td>
-            </tr>
-            <tr>
-                <td><label for="salary">Salary (optional):</label></td>
-                <td><input type="number" id="salary" name="salary" placeholder="e.g., 75000"></td>
-            </tr>
-            <tr>
-                <td><label for="job_description">Job Description (optional):</label></td>
-                <td><textarea id="job_description" name="job_description" rows="4" placeholder="Copy and paste the full job description here."></textarea></td>
-            </tr>
-            <tr>
-                <td><label for="recruiter_name">Recruiter's Name (optional):</label></td>
-                <td><input type="text" id="recruiter_name" name="recruiter_name" placeholder="e.g., John Doe"></td>
-            </tr>
-            <tr>
-                <td><label for="hiring_manager_name">Hiring Manager's Name (optional):</label></td>
-                <td><input type="text" id="hiring_manager_name" name="hiring_manager_name" placeholder="e.g., Jane Smith"></td>
-            </tr>
-            <tr>
-                <td><label for="recruiting_company">Recruiting Company (optional):</label></td>
-                <td><input type="text" id="recruiting_company" name="recruiting_company" placeholder="e.g., ABC Recruitment"></td>
-            </tr>
-            <tr>
-                <td><label for="notes">Notes (optional):</label></td>
-                <td><textarea id="notes" name="notes" rows="3" placeholder="Add any additional notes..."></textarea></td>
-            </tr>
-            <tr>
-                <td><label for="callback">Have you received a callback?</label></td>
-                <td>
-                    <select id="callback" name="callback">
-                        <option value="No">No</option>
-                        <option value="Yes">Yes</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="first_interview">Has the first interview been scheduled?</label></td>
-                <td>
-                    <select id="first_interview" name="first_interview">
-                        <option value="No">No</option>
-                        <option value="Yes">Yes</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
-        <button type="submit" class="btn-submit">Submit Application</button>
+        <div class="form-group">
+            <label for="company_name">* Company Name:</label>
+            <input type="text" id="company_name" name="company_name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="position">* Position:</label>
+            <input type="text" id="position" name="position" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="salary">Salary (optional):</label>
+            <input type="number" id="salary" name="salary" class="form-control" placeholder="e.g., 75000">
+        </div>
+        <div class="form-group">
+            <label for="job_description">Job Description (optional):</label>
+            <textarea id="job_description" name="job_description" class="form-control" rows="4" placeholder="Copy and paste the full job description here."></textarea>
+        </div>
+        <div class="form-group">
+            <label for="recruiter_name">Recruiter's Name (optional):</label>
+            <input type="text" id="recruiter_name" name="recruiter_name" class="form-control" placeholder="e.g., John Doe">
+        </div>
+        <div class="form-group">
+            <label for="hiring_manager_name">Hiring Manager's Name (optional):</label>
+            <input type="text" id="hiring_manager_name" name="hiring_manager_name" class="form-control" placeholder="e.g., Jane Smith">
+        </div>
+        <div class="form-group">
+            <label for="recruiting_company">Recruiting Company (optional):</label>
+            <input type="text" id="recruiting_company" name="recruiting_company" class="form-control" placeholder="e.g., ABC Recruitment">
+        </div>
+        <div class="form-group">
+            <label for="notes">Notes (optional):</label>
+            <textarea id="notes" name="notes" class="form-control" rows="3" placeholder="Add any additional notes..."></textarea>
+        </div>
+        <div class="form-group">
+            <label for="callback">Have you received a callback?</label>
+            <select id="callback" name="callback" class="form-control">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="first_interview">Has the first interview been scheduled?</label>
+            <select id="first_interview" name="first_interview" class="form-control">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Application</button>
     </form>
 </div>
 </body>
